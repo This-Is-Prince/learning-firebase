@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+section{
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+
+article{
+    display: flex;
+    justify-content: center;
+    column-gap: 2rem;
+}
+button{
+    border: none;
+    outline: none;
+    background-color: black;
+    color: white;
+    border-radius: 0.25rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    padding: 0.5rem 2rem;
+    letter-spacing: 0.25rem;
+    cursor: pointer;
+}
+input{
+    border: none;
+    letter-spacing: 0.25rem;
+    background-color: black;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 1.25rem;
+}
