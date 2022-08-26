@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
-import { app } from "../firebaseConfig";
+import { app, database } from "../firebaseConfig";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -9,10 +10,37 @@ import {
 const App = () => {
   const auth = getAuth(app);
   const [data, setData] = useState<{ [key: string]: string }>({});
+  const collectionRef = collection(database, "users");
+
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     let newInput = { [e.target.name]: e.target.value };
     setData({ ...data, ...newInput });
   };
+
+  const handleSubmit = async () => {
+    try {
+      const res = await addDoc(collectionRef, {
+        email: data.email,
+        password: data.password,
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const res = await getDocs(collectionRef);
+      res.forEach((doc) => {
+        console.log(doc);
+        console.log(doc.id, " => ", doc.data());
+      });
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
+
   const signUp = async () => {
     try {
       const res = await createUserWithEmailAndPassword(
@@ -37,6 +65,7 @@ const App = () => {
       console.log(error);
     }
   };
+
   return (
     <section>
       <article>
@@ -56,6 +85,8 @@ const App = () => {
       <article>
         <button onClick={signUp}>Sign Up</button>
         <button onClick={signIn}>Sign In</button>
+        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={getData}>Get</button>
       </article>
     </section>
   );
